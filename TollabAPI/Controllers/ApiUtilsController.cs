@@ -80,8 +80,8 @@ namespace TollabAPI.Controllers
                     msV.Close();
                     fsV.Close();
                     fsV.Dispose();
-                    string queryV = "Update  [" + imageModel.Table + "] set " + imageModel.CoulmnName + " ='" + fsV.Name + "'  OUTPUT INSERTED.Id where Id=" + imageModel.RecordId + "";
-                    long idV = await conn.GetConnection.ExecuteScalarAsync<long>(queryV);
+                    string queryV = "Update  [" + imageModel.Table + "] set " + imageModel.CoulmnName + " ='" + fsV.Name + "' where Id=" + imageModel.RecordId + "";
+                    long idV = await conn.GetConnection.ExecuteAsync(queryV);
                     if (idV <= 0)
                     {
                         response.clearBody();
@@ -112,8 +112,8 @@ namespace TollabAPI.Controllers
                 ms.Close();
                 fs.Close();
                 fs.Dispose();
-                string query = "Update  [" + imageModel.Table + "] set " + imageModel.CoulmnName + " ='" + fileName + "'  OUTPUT INSERTED.Id where Id=" + imageModel.RecordId + "";
-                long id = await conn.GetConnection.ExecuteScalarAsync<long>(query);
+                string query = "Update  [" + imageModel.Table + "] set " + imageModel.CoulmnName + " ='" + fileName + "' where Id=" + imageModel.RecordId + "";
+                long id = await conn.GetConnection.ExecuteAsync(query);
                 if (id <= 0)
                 {
                     response.clearBody();
@@ -122,7 +122,7 @@ namespace TollabAPI.Controllers
                 }
                 response.AddModel(AppConstants.Result, fileName);
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
-                response.AddMeta(AppConstants.Message, "Successfuly Updated");
+                response.AddMeta(AppConstants.Message, "Successfully Updated");
                 return response.getResponseMessage(HttpStatusCode.OK);
             }
             catch (Exception e)
