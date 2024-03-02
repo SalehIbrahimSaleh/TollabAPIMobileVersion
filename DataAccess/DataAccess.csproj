@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AC98569D-F72E-4D40-8C69-2554387E1EBE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataAccess</RootNamespace>
+    <AssemblyName>DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MixedRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.60.6\lib\net451\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.Contrib, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Contrib.1.60.1\lib\net451\Dapper.Contrib.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.Extension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Extension.1.0.0.1\lib\net45\Dapper.Extension.dll</HintPath>
+    </Reference>
+    <Reference Include="jose-jwt, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jose-jwt.2.3.0\lib\net40\jose-jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.1.1.2\lib\netstandard1.1\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.1.1.2\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.FileExtensions, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.FileExtensions.1.1.2\lib\net451\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Json, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.1.1.2\lib\net451\Microsoft.Extensions.Configuration.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Physical.1.1.1\lib\net451\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileSystemGlobbing.1.1.1\lib\net45\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.1.1.1\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Nexmo.Api, Version=4.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nexmo.Csharp.Client.4.3.2\lib\net452\Nexmo.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Amazon, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Amazon.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Apple, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Apple.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Blackberry, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Blackberry.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Core, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Firefox, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Firefox.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Google, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="PushSharp.Windows, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.2.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.3.0\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Z.Dapper.Plus, Version=3.0.18.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.Dapper.Plus.3.0.18\lib\net45\Z.Dapper.Plus.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DTOs\CreatingLiveDTO.cs" />
+    <Compile Include="DTOs\ExamResult.cs" />
+    <Compile Include="DTOs\StudentCourseExamsResults.cs" />
+    <Compile Include="DTOs\TeacherLiveDetails.cs" />
+    <Compile Include="DTOs\UpdatingLiveAttachmentDTO.cs" />
+    <Compile Include="DTOs\UpdatingLiveDTO.cs" />
+    <Compile Include="Entities\Category.cs" />
+    <Compile Include="Entities\ContactUs.cs" />
+    <Compile Include="Entities\ContentCourseTrackUser.cs" />
+    <Compile Include="Entities\Content.cs" />
+    <Compile Include="Entities\ContentType.cs" />
+    <Compile Include="Entities\Country.cs" />
+    <Compile Include="Entities\Course.cs" />
+    <Compile Include="Entities\CourseContentLinks.cs" />
+    <Compile Include="Entities\CourseDepartment.cs" />
+    <Compile Include="Entities\CoursesByTrackIdModel.cs" />
+    <Compile Include="Entities\CourseStatus.cs" />
+    <Compile Include="Entities\CourseTags.cs" />
+    <Compile Include="Entities\FawryLog.cs" />
+    <Compile Include="Entities\CowPayLog.cs" />
+    <Compile Include="Entities\Department.cs" />
+    <Compile Include="Entities\DisableReason.cs" />
+    <Compile Include="Entities\DownloadObj.cs" />
+    <Compile Include="Entities\Exam.cs" />
+    <Compile Include="Entities\ExamAnswer.cs" />
+    <Compile Include="Entities\ExamQuestion.cs" />
+    <Compile Include="Entities\ExamQuestionType.cs" />
+    <Compile Include="Entities\ExamType.cs" />
+    <Compile Include="Entities\Favourite.cs" />
+    <Compile Include="Entities\Group.cs" />
+    <Compile Include="DTOs\LiveDTO.cs" />
+    <Compile Include="Entities\Live.cs" />
+    <Compile Include="Entities\LiveAttachment.cs" />
+    <Compile Include="Entities\LiveDetails.cs" />
+    <Compile Include="Entities\LogError.cs" />
+    <Compile Include="Entities\OfflinePackage.cs" />
+    <Compile Include="Entities\StudentCourseContent.cs" />
+    <Compile Include="Entities\StudentCourseDownloaded.cs" />
+    <Compile Include="Entities\StudentPackage.cs" />
+    <Compile Include="Entities\StudentPromotion.cs" />
+    <Compile Include="Entities\TrackPromotionDetail.cs" />
+    <Compile Include="Entities\MyFatoorahPaymentLog.cs" />
+    <Compile Include="Entities\Pattern.cs" />
+    <Compile Include="Entities\PaymentMethodType.cs" />
+    <Compile Include="Entities\Reference.cs" />
+    <Compile Include="Entities\AboutUs.cs" />
+    <Compile Include="Entities\SecurityLog.cs" />
+    <Compile Include="Entities\Setting.cs" />
+    <Compile Include="Entities\SolveStatus.cs" />
+    <Compile Include="Entities\StudentAnswer.cs" />
+    <Compile Include="Entities\StudentCredentialsLoginModel.cs" />
+    <Compile Include="Entities\StudentExam.cs" />
+    <Compile Include="Entities\StudentHomeCourse.cs" />
+    <Compile Include="Entities\Interest.cs" />
+    <Compile Include="Entities\StudentLive.cs" />
+    <Compile Include="Entities\StudentLiveHome.cs" />
+    <Compile Include="Entities\StudentPushToken.cs" />
+    <Compile Include="Entities\StudentTokens.cs" />
+    <Compile Include="Entities\SystemSetting.cs" />
+    <Compile Include="Entities\TeacherAssistant.cs" />
+    <Compile Include="Entities\TeacherPushToken.cs" />
+    <Compile Include="Entities\TeacherSubject.cs" />
+    <Compile Include="Entities\MetaData.cs" />
+    <Compile Include="Entities\MyCourse.cs" />
+    <Compile Include="Entities\NotificationType.cs" />
+    <Compile Include="Entities\Offer.cs" />
+    <Compile Include="Entities\PaymentMethod.cs" />
+    <Compile Include="Entities\PromoCode.cs" />
+    <Compile Include="Entities\Reply.cs" />
+    <Compile Include="Entities\SearchWord.cs" />
+    <Compile Include="Entities\Section.cs" />
+    <Compile Include="Entities\Student.cs" />
+    <Compile Include="Entities\StudentContent.cs" />
+    <Compile Include="Entities\StudentCourse.cs" />
+    <Compile Include="Entities\StudentDepartment.cs" />
+    <Compile Include="Entities\StudentNotification.cs" />
+    <Compile Include="Entities\StudentPromoCode.cs" />
+    <Compile Include="Entities\StudentTransaction.cs" />
+    <Compile Include="Entities\StudentTransactionVM.cs" />
+    <Compile Include="Entities\SubCategory.cs" />
+    <Compile Include="Entities\Subject.cs" />
+    <Compile Include="Entities\SubjectCourse.cs" />
+    <Compile Include="Entities\SystemTransaction.cs" />
+    <Compile Include="Entities\Teacher.cs" />
+    <Compile Include="Entities\TeacherAccount.cs" />
+    <Compile Include="Entities\TeacherHomeCourse.cs" />
+    <Compile Include="Entities\TeacherNotification.cs" />
+    <Compile Include="Entities\TeacherTransactionVM.cs" />
+    <Compile Include="Entities\TokenStore.cs" />
+    <Compile Include="Entities\Track.cs" />
+    <Compile Include="Entities\TrackAndSUbCategoryIds.cs" />
+    <Compile Include="Entities\TrackPromotion.cs" />
+    <Compile Include="Entities\TrackPromotionCourse.cs" />
+    <Compile Include="Entities\TrackSubscription.cs" />
+    <Compile Include="Entities\TrackWithCourses.cs" />
+    <Compile Include="Entities\TeacherTransaction.cs" />
+    <Compile Include="Entities\TermAndCondition.cs" />
+    <Compile Include="Entities\UserDeviceLog.cs" />
+    <Compile Include="Entities\VideoQuestion.cs" />
+    <Compile Include="Entities\Views\ExaminationSummary.cs" />
+    <Compile Include="Entities\Views\ExamView.cs" />
+    <Compile Include="Entities\Views\GetprofileModel.cs" />
+    <Compile Include="Entities\Views\LoginAndoridModel.cs" />
+    <Compile Include="Entities\Views\StudentAnswersWithStudentExamId.cs" />
+    <Compile Include="Entities\Views\StudentExamQuestionsWithAnswers.cs" />
+    <Compile Include="Entities\Views\StudentExamsToCorrect.cs" />
+    <Compile Include="Enums\LiveLinkType.cs" />
+    <Compile Include="Enums\LiveStatusEnum.cs" />
+    <Compile Include="Enums\OfferLinkTypeEnum.cs" />
+    <Compile Include="Enums\OfferTypeId.cs" />
+    <Compile Include="Infrastructure\ConnectionFactory.cs" />
+    <Compile Include="Infrastructure\IConnectionFactory.cs" />
+    <Compile Include="PaymentModels\Data.cs" />
+    <Compile Include="PaymentModels\InvoiceTransaction.cs" />
+    <Compile Include="PaymentModels\BankResponse.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryResults\LiveQueryResult.cs" />
+    <Compile Include="QueryResults\StudentExamResult.cs" />
+    <Compile Include="Repositories\BankResponseRepository.cs" />
+    <Compile Include="Repositories\CategoryRepository.cs" />
+    <Compile Include="Repositories\ContactUsRepository.cs" />
+    <Compile Include="Repositories\ContentCourseTrackUserRepository.cs" />
+    <Compile Include="Repositories\ContentRepository.cs" />
+    <Compile Include="Repositories\CourseDepartmentRepository.cs" />
+    <Compile Include="Repositories\CourseRepository.cs" />
+    <Compile Include="Repositories\CowPayLogRepository.cs" />
+    <Compile Include="Repositories\DataRepository.cs" />
+    <Compile Include="Repositories\DepartmentRepository.cs" />
+    <Compile Include="Repositories\DisableReasonRepository.cs" />
+    <Compile Include="Repositories\DownloadObj.cs" />
+    <Compile Include="Repositories\ExamAnswerRepository.cs" />
+    <Compile Include="Repositories\ExamQuestionRepository.cs" />
+    <Compile Include="Repositories\ExamRepository.cs" />
+    <Compile Include="Repositories\FavouriteRepository.cs" />
+    <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\GroupRepository.cs" />
+    <Compile Include="Repositories\IGenericRepository.cs" />
+    <Compile Include="Repositories\InvoiceTransactionRepository.cs" />
+    <Compile Include="Repositories\LiveAttachmentRepository.cs" />
+    <Compile Include="Repositories\LiveRepository.cs" />
+    <Compile Include="Repositories\LogErrorRepository.cs" />
+    <Compile Include="Repositories\OfflinePackageRepository.cs" />
+    <Compile Include="Repositories\PaymentMethodTypeRepository.cs" />
+    <Compile Include="Repositories\SecurityLogRepository.cs" />
+    <Compile Include="Repositories\StudentAnswerRepository.cs" />
+    <Compile Include="Repositories\StudentCourseContentRepository.cs" />
+    <Compile Include="Repositories\StudentExamRepository.cs" />
+    <Compile Include="Repositories\StudentLiveRepository.cs" />
+    <Compile Include="Repositories\StudentCourseDownloadedRepository.cs" />
+    <Compile Include="Repositories\StudentPackageRepository.cs" />
+    <Compile Include="Repositories\StudentPushTokenRepository.cs" />
+    <Compile Include="Repositories\SystemTransactionRepository.cs" />
+    <Compile Include="Repositories\TeacherAssistantRepository.cs" />
+    <Compile Include="Repositories\TeacherNotificationRepository.cs" />
+    <Compile Include="Repositories\TeacherPushTokenRepository.cs" />
+    <Compile Include="Repositories\TeacherSubjectRepository.cs" />
+    <Compile Include="Repositories\OfferRepository.cs" />
+    <Compile Include="Repositories\PromoCodeRepository.cs" />
+    <Compile Include="Repositories\ReplyRepository.cs" />
+    <Compile Include="Repositories\SearchWordRepository.cs" />
+    <Compile Include="Repositories\SectionRepository.cs" />
+    <Compile Include="Repositories\StudentContentRepository.cs" />
+    <Compile Include="Repositories\StudentCourseRepository.cs" />
+    <Compile Include="Repositories\StudentDepartmentRepository.cs" />
+    <Compile Include="Repositories\StudentNotificationRepository.cs" />
+    <Compile Include="Repositories\StudentPromoCodeRepository.cs" />
+    <Compile Include="Repositories\StudentRepository.cs" />
+    <Compile Include="Repositories\StudentTransactionRepository.cs" />
+    <Compile Include="Repositories\SubCategoryRepository.cs" />
+    <Compile Include="Repositories\SubjectRepository.cs" />
+    <Compile Include="Repositories\TeacherRepository.cs" />
+    <Compile Include="Repositories\TeacherTransactionRepository.cs" />
+    <Compile Include="Repositories\TokenStoreRepository.cs" />
+    <Compile Include="Repositories\TrackPromotionCourseRepository.cs" />
+    <Compile Include="Repositories\TrackPromotionRepository.cs" />
+    <Compile Include="Repositories\TrackRepository.cs" />
+    <Compile Include="Repositories\TrackSubscriptionRepository.cs" />
+    <Compile Include="Repositories\UserDeviceLogRepository.cs" />
+    <Compile Include="Repositories\VideoQuestionRepository.cs" />
+    <Compile Include="Services\ExamService.cs" />
+    <Compile Include="Services\MetaDataService.cs" />
+    <Compile Include="Services\MyFatoorahClient.cs" />
+    <Compile Include="Services\MyFatoorahPaymentLogService.cs" />
+    <Compile Include="Services\MyFatoorahPaymentService.cs" />
+    <Compile Include="Services\OfferService.cs" />
+    <Compile Include="Services\PaymentMethodTypeService.cs" />
+    <Compile Include="Services\StudentService.cs" />
+    <Compile Include="Services\TeacherService.cs" />
+    <Compile Include="Services\TransactionService.cs" />
+    <Compile Include="Services\Utils\GenericResponse.cs" />
+    <Compile Include="Services\Utils\GetPaymentStatusRequest.cs" />
+    <Compile Include="Services\Utils\ValidationError.cs" />
+    <Compile Include="Services\VideoQuestionService.cs" />
+    <Compile Include="UnitOfWork\ExamUnit.cs" />
+    <Compile Include="UnitOfWork\MetaDataUnit.cs" />
+    <Compile Include="UnitOfWork\StudentUnit.cs" />
+    <Compile Include="UnitOfWork\TeacherUnit.cs" />
+    <Compile Include="UnitOfWork\TransactionsUnit.cs" />
+    <Compile Include="UnitOfWork\VideoQuestionUnit.cs" />
+    <Compile Include="Utils\CodeGenerator.cs" />
+    <Compile Include="Utils\MobileNumberChecker.cs" />
+    <Compile Include="Utils\PaymentKeyGenerator.cs" />
+    <Compile Include="Utils\PushManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
