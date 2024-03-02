@@ -35,11 +35,11 @@ namespace TollabAPI.Controllers
                 }
 
 
-                if (imageModel.ImageType ==(int)ImageFolders.Flags)
+                if (imageModel.ImageType == (int)ImageFolders.Flags)
                 {
                     imagePath = "/ws/Images/Flags/";
                 }
-              else  if (imageModel.ImageType == (int)ImageFolders.OffersImages)
+                else if (imageModel.ImageType == (int)ImageFolders.OffersImages)
                 {
                     imagePath = "/ws/Images/OffersImages/";
                 }
@@ -70,8 +70,8 @@ namespace TollabAPI.Controllers
                 else if (imageModel.ImageType == (int)ImageFolders.CourseVideos)
                 {
                     imagePath = "/ws/CourseVideos/";
-                  //  string fileNameV = "UI" + DateTime.Now.ToString("IMG" + "dd_MM_yyyy_HH_mm_ss");
-                     byte[] fileBytesV = Convert.FromBase64String(imageModel.Image);
+                    //  string fileNameV = "UI" + DateTime.Now.ToString("IMG" + "dd_MM_yyyy_HH_mm_ss");
+                    byte[] fileBytesV = Convert.FromBase64String(imageModel.Image);
                     MemoryStream msV = new MemoryStream(fileBytesV);
                     string fullPathV = basePath + imagePath; /*+ fileNameV;*/
                     System.IO.Directory.CreateDirectory(basePath + imagePath);
@@ -90,7 +90,7 @@ namespace TollabAPI.Controllers
                     }
                     response.AddModel(AppConstants.Result, fsV.Name);
                     response.AddMeta(AppConstants.Result, AppConstants.Success);
-                    response.AddMeta(AppConstants.Message, "Successfuly Updated");
+                    response.AddMeta(AppConstants.Message, "Successfully Updated");
                     return response.getResponseMessage(HttpStatusCode.OK);
 
                 }
@@ -98,7 +98,7 @@ namespace TollabAPI.Controllers
                 {
                     imagePath = "/ws/Images/TeacherAssistantImages/";
                 }
-                else if(imageModel.ImageType == (int)ImageFolders.LiveImages)
+                else if (imageModel.ImageType == (int)ImageFolders.LiveImages)
                 {
                     imagePath = "/ws/Images/LiveImages/";
                 }
@@ -129,6 +129,8 @@ namespace TollabAPI.Controllers
             {
                 response.clearBody();
                 response.AddError(AppConstants.Message, "try_later");
+                response.AddError("Exception_Message", e.Message);
+                response.AddError("Inner_Exception_Message", e.InnerException?.Message);
                 return response.getResponseMessage(System.Net.HttpStatusCode.InternalServerError);
             }
 
@@ -150,9 +152,9 @@ namespace TollabAPI.Controllers
                 var IntroVideo = System.Web.HttpContext.Current.Request.Files[0];
                 var basePath = System.Web.Hosting.HostingEnvironment.MapPath("~");
 
-                string   VideoPath = "/CourseVideos/";
+                string VideoPath = "/CourseVideos/";
 
-                string fileName= "UI" + DateTime.Now.ToString("IMG" + "dd_MM_yyyy_HH_mm_ss");
+                string fileName = "UI" + DateTime.Now.ToString("IMG" + "dd_MM_yyyy_HH_mm_ss");
                 var extension = Path.GetExtension(IntroVideo.FileName);
 
                 if (!string.IsNullOrWhiteSpace(extension))
@@ -241,18 +243,18 @@ namespace TollabAPI.Controllers
 
 
 
-    public enum ImageFolders 
+    public enum ImageFolders
     {
-        Flags =1,
-        SectionImages= 2,
-        OffersImages=3,
-        QuestionImagesOrVoices=4,
+        Flags = 1,
+        SectionImages = 2,
+        OffersImages = 3,
+        QuestionImagesOrVoices = 4,
         CourseImages = 5,
-        StudentImages=6,
-        SubjectImages=7,
-        TeacherImages=8,
-        TeacherSubjectImages=9,
-        CourseVideos=10,
+        StudentImages = 6,
+        SubjectImages = 7,
+        TeacherImages = 8,
+        TeacherSubjectImages = 9,
+        CourseVideos = 10,
         TeacherAssistantImages = 11,
         LiveImages = 12
     }
