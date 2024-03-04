@@ -38,7 +38,7 @@ namespace TollabAPI.Controllers
         StudentService _studentService;
         ApplicationDbContext dbContext = new ApplicationDbContext();
         ExamService _examService;
-             
+
 
         public ExamsController()
         {
@@ -63,14 +63,14 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
                 var teacherData = await _teacherService.GetTeacherByIdentityId(IdentityUserId);
-                if (teacherData==null)
+                if (teacherData == null)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "User not found");
                     response.AddError(AppConstants.Code, AppConstants.User_Not_Found);
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
-                if (exam.CourseId==0||exam.CourseId==0||exam.ExamTypeId==0||string.IsNullOrEmpty(exam.Name))
+                if (exam.CourseId == 0 || exam.CourseId == 0 || exam.ExamTypeId == 0 || string.IsNullOrEmpty(exam.Name))
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Invalide Parameter");
@@ -78,7 +78,7 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
 
                 }
-                if (exam.DeadlineDate<exam.StartDate)
+                if (exam.DeadlineDate < exam.StartDate)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Deadline Date less than start date");
@@ -86,7 +86,7 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
                 var CourseData = await _teacherService.GetCoursesById(exam.CourseId, teacherData.Id);
-                if (CourseData==null)
+                if (CourseData == null)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Invalid Course Id");
@@ -183,7 +183,7 @@ namespace TollabAPI.Controllers
 
                 }
                 var questions = await _examService.GetAllExamQuestionWithAnswers(ExamData.Id, 0);
-                if (questions.Count>0&&ExamData.ExamTypeId!=exam.ExamTypeId)
+                if (questions.Count > 0 && ExamData.ExamTypeId != exam.ExamTypeId)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "You Can Not change Exam type Because Question added to It");
@@ -264,7 +264,7 @@ namespace TollabAPI.Controllers
 
                 }
 
-                var delete =  _examService.DeleteExam(ExamData);
+                var delete = _examService.DeleteExam(ExamData);
                 if (delete == false)
                 {
                     response.clearBody();
@@ -290,11 +290,11 @@ namespace TollabAPI.Controllers
 
         [HttpPost]
         [Route("api/UploadExamFile")]
-        public async Task<HttpResponseMessage> UploadExamFile( )
+        public async Task<HttpResponseMessage> UploadExamFile()
         {
             try
             {
-                
+
                 string IdentityUserId = User.Identity.GetUserId();
                 if (string.IsNullOrEmpty(IdentityUserId))
                 {
@@ -313,14 +313,14 @@ namespace TollabAPI.Controllers
                 }
 
 
-                ExamQuestion examQuestion = new  ExamQuestion();
+                ExamQuestion examQuestion = new ExamQuestion();
                 examQuestion.Id = Convert.ToInt64(HttpContext.Current.Request.Params["Id"]);
                 examQuestion.Title = HttpContext.Current.Request.Params["Title"];
-                examQuestion.ExamId =Convert.ToInt64(HttpContext.Current.Request.Params["ExamId"]);
+                examQuestion.ExamId = Convert.ToInt64(HttpContext.Current.Request.Params["ExamId"]);
                 examQuestion.Degree = float.Parse(HttpContext.Current.Request.Params["Degree"]);
                 examQuestion.ExamQuestionTypeId = AppConstants.ExamQuestionType_Pdf;
                 examQuestion.OrderNumber = 1;
-                if (examQuestion.ExamId<1||examQuestion.Degree<1/*|| HttpContext.Current.Request.Files.Count <2*/)
+                if (examQuestion.ExamId < 1 || examQuestion.Degree < 1/*|| HttpContext.Current.Request.Files.Count <2*/)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Invalide Parameter");
@@ -345,7 +345,7 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
 
                 }
-                if (ExamData.ExamTypeId!=2)
+                if (ExamData.ExamTypeId != 2)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Invalide_Exam_Type");
@@ -361,23 +361,23 @@ namespace TollabAPI.Controllers
                 }
                 fileSaveLocation = fileSaveLocation + "ws/ExamFiles";
 
-                    CustomMultipartFormDataStreamProviderForUplaodEexamFile provider = new CustomMultipartFormDataStreamProviderForUplaodEexamFile(fileSaveLocation);
-                    // Read all contents of multipart message into CustomMultipartFormDataStreamProvider.
-                    await Request.Content.ReadAsMultipartAsync(provider);
+                CustomMultipartFormDataStreamProviderForUplaodEexamFile provider = new CustomMultipartFormDataStreamProviderForUplaodEexamFile(fileSaveLocation);
+                // Read all contents of multipart message into CustomMultipartFormDataStreamProvider.
+                await Request.Content.ReadAsMultipartAsync(provider);
 
-                    bool InsertedFileBefore = false;
-                    if (examQuestion.Id>0)
-                    {
-                        var oldExamQuestion = await _examService.GetExamQuestionById(examQuestion.Id);
-                        InsertedFileBefore = !string.IsNullOrEmpty(oldExamQuestion.FilePath) || !string.IsNullOrEmpty(oldExamQuestion.IdealAnswerFilePath) ? true : false;
-                     }
-                    if (InsertedFileBefore==false&&(provider.FileData == null || provider.FileData.Count ==0))
-                    {
+                bool InsertedFileBefore = false;
+                if (examQuestion.Id > 0)
+                {
+                    var oldExamQuestion = await _examService.GetExamQuestionById(examQuestion.Id);
+                    InsertedFileBefore = !string.IsNullOrEmpty(oldExamQuestion.FilePath) || !string.IsNullOrEmpty(oldExamQuestion.IdealAnswerFilePath) ? true : false;
+                }
+                if (InsertedFileBefore == false && (provider.FileData == null || provider.FileData.Count == 0))
+                {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "No Files");
                     response.AddError(AppConstants.Code, AppConstants.No_Files);
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
-                   }
+                }
 
                 if (provider.FileData != null && provider.FileData.Count > 0)
                 {
@@ -400,14 +400,14 @@ namespace TollabAPI.Controllers
                             if (file.Headers.ContentDisposition.Name.Replace("\"", string.Empty) == "FilePath")
                                 examQuestion.FilePath = newFileName;
                             else
-                          
-                            examQuestion.IdealAnswerFilePath = newFileName;
+
+                                examQuestion.IdealAnswerFilePath = newFileName;
                         }
                     }
 
                 }
-                
-                examQuestion.Title=ExamData.Name+"_"+DateTime.Now.ToString("" + "dd_MM_yyyy_HH_mm_ss") + "";
+
+                examQuestion.Title = ExamData.Name + "_" + DateTime.Now.ToString("" + "dd_MM_yyyy_HH_mm_ss") + "";
                 var ExamQuestionData = await _examService.AddOrUpdateExamQuestion(examQuestion);
                 response.AddModel(AppConstants.Exam, ExamQuestionData);
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
@@ -427,7 +427,7 @@ namespace TollabAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/DelteExamFile")] 
+        [Route("api/DelteExamFile")]
         public async Task<HttpResponseMessage> DelteExamFile(long ExamQuestionId)
         {
             try
@@ -450,7 +450,7 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
 
-                 if ( ExamQuestionId< 1)
+                if (ExamQuestionId < 1)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Invalide Parameter");
@@ -528,7 +528,7 @@ namespace TollabAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/GetExamFile")] 
+        [Route("api/GetExamFile")]
         public async Task<HttpResponseMessage> GetExamFile(long ExamId)
         {
             try
@@ -575,14 +575,14 @@ namespace TollabAPI.Controllers
 
                 }
                 var ExamData = await _examService.GetExamById(ExamId);
-                if (ExamData==null)
+                if (ExamData == null)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Invalide Parameter");
                     response.AddError(AppConstants.Code, AppConstants.Invalide_Parameter);
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
-                if (ExamData.ExamTypeId!=AppConstants.ExamTypeFile)
+                if (ExamData.ExamTypeId != AppConstants.ExamTypeFile)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Invalide Exam type");
@@ -590,7 +590,7 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
 
                 }
-                var ExamFile = await _examService.GetExamFileByExamId(ExamId);            
+                var ExamFile = await _examService.GetExamFileByExamId(ExamId);
                 response.AddModel(AppConstants.Exam, ExamFile);
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
                 response.AddMeta(AppConstants.Message, "Added Successfuly");
@@ -629,7 +629,7 @@ namespace TollabAPI.Controllers
                     response.AddError(AppConstants.Code, AppConstants.User_Not_Found);
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
-                if (string.IsNullOrEmpty(examQuestion.Title) || examQuestion.Degree < 1 || examQuestion.ExamQuestionTypeId < 1  )
+                if (string.IsNullOrEmpty(examQuestion.Title) || examQuestion.Degree < 1 || examQuestion.ExamQuestionTypeId < 1)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Invalide Parameter");
@@ -656,7 +656,7 @@ namespace TollabAPI.Controllers
                 }
 
                 var studentExams = await _examService.CheckIfThisExamSolvedByStudents(ExamData.Id);
-                if (studentExams.Count()>0)
+                if (studentExams.Count() > 0)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "You Can Not Add Question To This Exam Because Students Solved It");
@@ -672,16 +672,16 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
 
                 }
-                if (examQuestion.ExamAnswers.Count==0)
+                if (examQuestion.ExamAnswers.Count == 0)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Please Add Answers");
                     response.AddError(AppConstants.Code, AppConstants.Please_Add_Answers);
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
-                if (!string.IsNullOrEmpty( examQuestion.Image))
+                if (!string.IsNullOrEmpty(examQuestion.Image))
                 {
-                    var image= SetPhoto(examQuestion.Image);
+                    var image = SetPhoto(examQuestion.Image);
                     examQuestion.Image = image;
                 }
                 var ExamQuestionData = await _examService.AddExamQuestionWithAnswers(examQuestion);
@@ -724,7 +724,7 @@ namespace TollabAPI.Controllers
                     response.AddError(AppConstants.Code, AppConstants.User_Not_Found);
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
-                if (string.IsNullOrEmpty(examQuestion.Title)||examQuestion.Id<1 || examQuestion.Degree < 1 || examQuestion.ExamQuestionTypeId < 1)
+                if (string.IsNullOrEmpty(examQuestion.Title) || examQuestion.Id < 1 || examQuestion.Degree < 1 || examQuestion.ExamQuestionTypeId < 1)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Invalide Parameter");
@@ -741,14 +741,14 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
 
                 }
-                if (ExamData.Publish)
-                {
-                    response.clearBody();
-                    response.AddError(AppConstants.Message, "This Exam Published and can not Update It");
-                    response.AddError(AppConstants.Code, AppConstants.This_Exam_Published_and_can_not_Update_It);
-                    return response.getResponseMessage(HttpStatusCode.BadRequest);
+                //if (ExamData.Publish)
+                //{
+                //    response.clearBody();
+                //    response.AddError(AppConstants.Message, "This Exam Published and can not Update It");
+                //    response.AddError(AppConstants.Code, AppConstants.This_Exam_Published_and_can_not_Update_It);
+                //    return response.getResponseMessage(HttpStatusCode.BadRequest);
 
-                }
+                //}
                 if (ExamData.ExamTypeId != 1)
                 {
                     response.clearBody();
@@ -785,25 +785,23 @@ namespace TollabAPI.Controllers
                 }
                 if (!string.IsNullOrEmpty(examQuestion.Image))
                 {
-                   
-
-                        var image = "";
-                        if (!examQuestion.Image.EndsWith(".png"))
+                    var image = "";
+                    if (!examQuestion.Image.EndsWith(".png"))
+                    {
+                        if (!string.IsNullOrEmpty(ExamQuestionData.Image))
                         {
-                            if (!string.IsNullOrEmpty(ExamQuestionData.Image))
-                            {
-                                string path = HttpContext.Current.Server.MapPath("~/Images/ExamImages") + "/" + ExamQuestionData.Image;
-                                FileInfo myfileinf = new FileInfo(path);
-                                myfileinf.Delete();
-                            }
-                            image = SetPhoto(examQuestion.Image);
+                            string path = HttpContext.Current.Server.MapPath("~/ws/Images/ExamImages") + "/" + ExamQuestionData.Image;
+                            FileInfo myfileinf = new FileInfo(path);
+                            myfileinf.Delete();
                         }
-                        else
-                            image = examQuestion.Image;
-                        examQuestion.Image = image;
-                    
+                        image = SetPhoto(examQuestion.Image);
+                    }
+                    else
+                        image = examQuestion.Image;
+                    examQuestion.Image = image;
+
                 }
-                
+
                 var updatedExamQuestionWithAnswers = await _examService.UpdateExamQuestionWithAnswers(examQuestion);
                 response.AddModel(AppConstants.Exam, updatedExamQuestionWithAnswers);
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
@@ -910,7 +908,7 @@ namespace TollabAPI.Controllers
 
         [HttpGet]
         [Route("api/GetAllExamQuestionWithAnswers")]
-        public async Task<HttpResponseMessage> GetAllExamQuestionWithAnswers(long ExamId,int Page)
+        public async Task<HttpResponseMessage> GetAllExamQuestionWithAnswers(long ExamId, int Page)
         {
             try
             {
@@ -963,7 +961,7 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
 
                 }
-                var ExamQuestionWithAnswers = await _examService.GetAllExamQuestionWithAnswers(ExamId,Page);
+                var ExamQuestionWithAnswers = await _examService.GetAllExamQuestionWithAnswers(ExamId, Page);
                 response.AddModel(AppConstants.Exam, ExamQuestionWithAnswers);
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
                 response.AddMeta(AppConstants.Message, "Added Successfuly");
@@ -982,7 +980,7 @@ namespace TollabAPI.Controllers
 
         [HttpGet]
         [Route("api/GetTeacherExams")]
-        public async Task<HttpResponseMessage> GetTeacherExams(long? CourseId=null,bool? Publish=null, int Page=0)
+        public async Task<HttpResponseMessage> GetTeacherExams(long? CourseId = null, bool? Publish = null, int Page = 0)
         {
             try
             {
@@ -1017,9 +1015,9 @@ namespace TollabAPI.Controllers
                     response.AddError(AppConstants.Code, AppConstants.User_Not_Found);
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
- 
-                
-                var exams = await _examService.GetTeacherExams(teacherData.Id,CourseId,Publish, Page);
+
+
+                var exams = await _examService.GetTeacherExams(teacherData.Id, CourseId, Publish, Page);
                 response.AddModel(AppConstants.Exam, exams);
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
                 response.AddMeta(AppConstants.Message, "Added Successfuly");
@@ -1101,7 +1099,7 @@ namespace TollabAPI.Controllers
 
         [HttpGet]
         [Route("api/PublishOrUnPublishExam")]
-        public async Task<HttpResponseMessage> PublishExam(long ExamId,bool Publish=true)
+        public async Task<HttpResponseMessage> PublishExam(long ExamId, bool Publish = true)
         {
             try
             {
@@ -1132,7 +1130,7 @@ namespace TollabAPI.Controllers
 
                 }
                 var ExamQuestions = await _examService.GetAllExamQuestionWithAnswers(ExamData.Id, 0);
-                if (ExamQuestions.Count==0&&Publish==true)
+                if (ExamQuestions.Count == 0 && Publish == true)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "No_Questions_Added");
@@ -1168,7 +1166,7 @@ namespace TollabAPI.Controllers
 
         [HttpGet]
         [Route("api/GetStudentExamsToCorrect")]
-        public async Task<HttpResponseMessage> GetStudentExamsToCorrect(long ExamId,int Page,long? solveStatusId=null)
+        public async Task<HttpResponseMessage> GetStudentExamsToCorrect(long ExamId, int Page, long? solveStatusId = null)
         {
             try
             {
@@ -1206,8 +1204,8 @@ namespace TollabAPI.Controllers
                 //    return response.getResponseMessage(HttpStatusCode.BadRequest);
 
                 //}
-                var studentExams = await _examService.GetStudentExamsToCorrect(ExamId,Page, solveStatusId);
-                
+                var studentExams = await _examService.GetStudentExamsToCorrect(ExamId, Page, solveStatusId);
+
                 response.AddModel(AppConstants.Exam, studentExams);
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
                 response.AddMeta(AppConstants.Message, "Added Successfuly");
@@ -1284,7 +1282,7 @@ namespace TollabAPI.Controllers
 
         [HttpGet]
         [Route("api/GetStudentQuestionsToCorrect")]
-        public async Task<HttpResponseMessage> GetStudentQuestionsToCorrect(long ExamId,long StudentId)
+        public async Task<HttpResponseMessage> GetStudentQuestionsToCorrect(long ExamId, long StudentId)
         {
             try
             {
@@ -1314,8 +1312,8 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
 
                 }
-                var StudentExamData = await _examService.GetStuedntExamForTeacher(ExamId,StudentId);
-                if (StudentExamData==null)
+                var StudentExamData = await _examService.GetStuedntExamForTeacher(ExamId, StudentId);
+                if (StudentExamData == null)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Not Solved Yet");
@@ -1365,7 +1363,7 @@ namespace TollabAPI.Controllers
                 //    return response.getResponseMessage(HttpStatusCode.BadRequest);
                 //}
 
-                 var studentAnswerData = await _examService.GetStudentAnswer(studentAnswer.Id);
+                var studentAnswerData = await _examService.GetStudentAnswer(studentAnswer.Id);
                 if (studentAnswerData == null)
                 {
                     response.clearBody();
@@ -1382,7 +1380,7 @@ namespace TollabAPI.Controllers
                 //    return response.getResponseMessage(HttpStatusCode.BadRequest);
 
                 //}
-                 studentAnswerData.TeacherCorrectance = studentAnswer.TeacherCorrectance;
+                studentAnswerData.TeacherCorrectance = studentAnswer.TeacherCorrectance;
                 if (studentAnswerData.ExamQuestionTypeId == AppConstants.ExamQuestionType_Article)
                 {
                     studentAnswerData.Degree = studentAnswer.Degree;
@@ -1391,9 +1389,9 @@ namespace TollabAPI.Controllers
                         studentAnswerData.IsTrue = true;
                     }
                 }
-              
+
                 studentAnswerData.Corrected = true;
-                var correctedAnswer =  await _examService.CorrectEssayQuestion(studentAnswerData);
+                var correctedAnswer = await _examService.CorrectEssayQuestion(studentAnswerData);
                 if (correctedAnswer == null)
                 {
                     response.clearBody();
@@ -1401,7 +1399,7 @@ namespace TollabAPI.Controllers
                     response.AddError(AppConstants.Code, AppConstants.Operation_Not_Completed);
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
-                response.AddModel(AppConstants.Exam,correctedAnswer);
+                response.AddModel(AppConstants.Exam, correctedAnswer);
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
                 response.AddMeta(AppConstants.Message, "Added Successfuly");
                 return response.getResponseMessage(HttpStatusCode.OK);
@@ -1447,7 +1445,7 @@ namespace TollabAPI.Controllers
                 studentAnswer.Degree = float.Parse(HttpContext.Current.Request.Params["Degree"]);
                 studentAnswer.TeacherCorrectance = HttpContext.Current.Request.Params["TeacherCorrectance"];
                 studentAnswer.VoicePath = HttpContext.Current.Request.Params["VoicePath"];
-                studentAnswer.Duration = Convert.ToInt64( HttpContext.Current.Request.Params["Duration"]);
+                studentAnswer.Duration = Convert.ToInt64(HttpContext.Current.Request.Params["Duration"]);
 
 
 
@@ -1491,12 +1489,12 @@ namespace TollabAPI.Controllers
 
                 }
                 var Question = await _examService.GetExamQuestionById(studentAnswerData.ExamQuestionId.Value);
-                 
-                
+
+
                 studentAnswerData.TeacherCorrectance = studentAnswer.TeacherCorrectance;
                 studentAnswerData.Duration = studentAnswer.Duration;
                 studentAnswerData.Degree = studentAnswerData.Degree > Question.Degree ? Question.Degree : studentAnswer.Degree;
-                studentAnswerData.VoicePath = !string.IsNullOrEmpty(studentAnswer.VoicePath)? studentAnswer.VoicePath:null;
+                studentAnswerData.VoicePath = !string.IsNullOrEmpty(studentAnswer.VoicePath) ? studentAnswer.VoicePath : null;
                 if (studentAnswer.Degree > 0)
                 {
                     studentAnswerData.IsTrue = true;
@@ -1615,7 +1613,7 @@ namespace TollabAPI.Controllers
 
         [HttpGet]
         [Route("api/GetStudentExams")]
-        public async Task<HttpResponseMessage> GetStudentExams(long? CourseId=null,long? SolveStatusId=null, int Page=0)
+        public async Task<HttpResponseMessage> GetStudentExams(long? CourseId = null, long? SolveStatusId = null, int Page = 0)
         {
             try
             {
@@ -1638,7 +1636,7 @@ namespace TollabAPI.Controllers
                 }
 
 
-                var StudentExams = await _examService.GetStuedntExam(StudentData.Id,CourseId, SolveStatusId, Page);
+                var StudentExams = await _examService.GetStuedntExam(StudentData.Id, CourseId, SolveStatusId, Page);
                 response.AddModel(AppConstants.Exam, StudentExams);
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
                 response.AddMeta(AppConstants.Message, "Added Successfuly");
@@ -1680,7 +1678,7 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
 
-                var ExamData = await _examService.GetExamDeatailsForStudent(StudentData.Id,ExamId);
+                var ExamData = await _examService.GetExamDeatailsForStudent(StudentData.Id, ExamId);
                 if (ExamData == null)
                 {
                     response.clearBody();
@@ -1819,7 +1817,7 @@ namespace TollabAPI.Controllers
                 }
                 var studentExamData = await _examService.GetStudentExam(StudentData.Id, ExamId);
 
-                if (studentExamData==null)
+                if (studentExamData == null)
                 {
                     StudentExam studentExam = new StudentExam()
                     {
@@ -1829,7 +1827,7 @@ namespace TollabAPI.Controllers
                         SolveStatusId = AppConstants.SolveStatus_NotComplete,
                         TotalScore = 0
                     };
-                     studentExamData = await _examService.StartExam(studentExam);
+                    studentExamData = await _examService.StartExam(studentExam);
                     if (studentExamData == null)
                     {
                         response.clearBody();
@@ -1953,7 +1951,7 @@ namespace TollabAPI.Controllers
                 }
                 //
                 studentAnswer.ExamQuestionTypeId = examQuestion.ExamQuestionTypeId;
-                
+
                 var addAnswer = await _examService.AddStudentPdfAnswer(studentAnswer);
                 if (addAnswer == null)
                 {
@@ -2017,7 +2015,7 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
 
                 }
-                if (ExamData.Publish ==false )
+                if (ExamData.Publish == false)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "This Exam Not Published yet");
@@ -2033,7 +2031,7 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
 
                 }
-                if (ExamData.EndDate <DateTime.UtcNow)
+                if (ExamData.EndDate < DateTime.UtcNow)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "This Exam Closed");
@@ -2042,7 +2040,7 @@ namespace TollabAPI.Controllers
 
                 }
                 var IsStartedBefor = await _examService.GetStudentExam(StudentData.Id, ExamId);
-                if (IsStartedBefor!=null)
+                if (IsStartedBefor != null)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "You started this  Exam");
@@ -2059,7 +2057,7 @@ namespace TollabAPI.Controllers
                     TotalScore = 0
                 };
                 var studentExamAdd = await _examService.StartExam(studentExam);
-                if (studentExamAdd==null)
+                if (studentExamAdd == null)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Operation_Not_Completed");
@@ -2121,7 +2119,7 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
 
                 }
-                if (StudentExamData.SolveStatusId!=AppConstants.SolveStatus_NotComplete)
+                if (StudentExamData.SolveStatusId != AppConstants.SolveStatus_NotComplete)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Invalid_SolveStatus");
@@ -2129,7 +2127,7 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
                 var SaveStudentAnswers = await _examService.SaveStudentAnswers(answersWithStudentExamId.StudentAnswers, answersWithStudentExamId.StudentExamId);
-                if (SaveStudentAnswers==null)
+                if (SaveStudentAnswers == null)
                 {
                     response.clearBody();
                     response.AddError(AppConstants.Message, "Operation Not Completed");
@@ -2162,7 +2160,7 @@ namespace TollabAPI.Controllers
         public CustomMultipartFormDataStreamProviderForUplaodEexamFile(string path) : base(path) { }
         public override string GetLocalFileName(HttpContentHeaders headers)
         {
-            string fileName = "Exam_"+headers.ContentDisposition.Name.Replace("\"", string.Empty) + "_" + DateTime.Now.ToString("" + "dd_MM_yyyy_HH_mm_ss") + "";
+            string fileName = "Exam_" + headers.ContentDisposition.Name.Replace("\"", string.Empty) + "_" + DateTime.Now.ToString("" + "dd_MM_yyyy_HH_mm_ss") + "";
             var s = headers.ContentDisposition.FileName.Replace("\"", string.Empty);
             var extension = Path.GetExtension(headers.ContentDisposition.FileName.Replace("\"", string.Empty));
             //if (string.IsNullOrEmpty( extension))
