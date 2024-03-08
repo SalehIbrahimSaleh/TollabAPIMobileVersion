@@ -176,7 +176,7 @@ namespace TollabAPI.Controllers
                 fsV.Dispose();
                 response.AddModel(AppConstants.Result, fileName);
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
-                response.AddMeta(AppConstants.Message, "Successfuly saved");
+                response.AddMeta(AppConstants.Message, "Successfully saved");
                 return response.getResponseMessage(HttpStatusCode.OK);
             }
             else

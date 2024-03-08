@@ -206,7 +206,7 @@ namespace DataAccess.Services
                 var paymentKey = PaymentKeyGenerator.getPaymentKey();
                 string arabicMessage = "لتتمكن من الإشتراك في دوراتنا أو شحن محفظتك  قم بزيارة الرابط التالي ";
                 string EndArabicmessage = "طلاب. افضل. اوفر.   ";
-                var message = arabicMessage + "  " + "https://tollab.azurewebsites.net/Pay/" + paymentKey + student.Id.ToString() + "  " + EndArabicmessage;
+                var message = arabicMessage + "  " + "http://tollab.com/tollab/Pay/" + paymentKey + student.Id.ToString() + "  " + EndArabicmessage;
 
                 string TollabApp = "Tollab App";
 
@@ -228,7 +228,7 @@ namespace DataAccess.Services
                 {
                     await CallNexmo(PhoneNumber, message);
                 }
-                student.PaymentLink = "https://tollab.azurewebsites.net/Pay/"+ paymentKey+student.Id.ToString();
+                student.PaymentLink = "http://tollab.com/tollab/Pay/" + paymentKey+student.Id.ToString();
                 student.PaymentKey= paymentKey + student.Id.ToString();
                 student.LastSendDate = DateTime.UtcNow;
                 await _studentUnit.StudentRepository.Update(student);//(PhoneNumber, vcode);
@@ -963,7 +963,7 @@ namespace DataAccess.Services
                     LiveName = live.LiveName,
                     TeacherName = live.TeacherName,
                     Duration = live.Duration,
-                    CoverImage = "http://tollab.azurewebsites.net/ws/Images/LiveImages/" + live.Image,
+                    CoverImage = "http://tollab.com/tollab/ws/Images/LiveImages/" + live.Image,
                     CurrentCost = live.CurrentPrice,
                     PreviousCost = live.OldPrice,
                     VideoURI = live.VideoURI,
@@ -1009,7 +1009,7 @@ namespace DataAccess.Services
                     LiveName = live.LiveName,
                     TeacherName = live.TeacherName,
                     Duration = live.Duration,
-                    CoverImage = "http://tollab.azurewebsites.net/ws/Images/LiveImages/" + live.Image,
+                    CoverImage = "http://tollab.com/tollab/ws/Images/LiveImages/" + live.Image,
                     CurrentCost = live.CurrentPrice,
                     PreviousCost = live.OldPrice,
                     VideoURI = live.VideoURI,
@@ -1044,7 +1044,7 @@ namespace DataAccess.Services
                 LiveName = result.LiveName,
                 TeacherName = result.TeacherName,
                 Duration = result.Duration,
-                CoverImage = "http://tollab.azurewebsites.net/ws/Images/LiveImages/" + result.Image,
+                CoverImage = "http://tollab.com/tollab/ws/Images/LiveImages/" + result.Image,
                 CurrentCost = result.CurrentPrice,
                 PreviousCost = result.OldPrice,
                 VideoURI = result.VideoURI,
@@ -1063,7 +1063,7 @@ namespace DataAccess.Services
                     Name = att.Name,
                     LiveId = att.LiveId,
                     OrderNumber = att.OrderNumber,
-                    Path = "http://tollab.azurewebsites.net/ws/CourseVideos/" + att.Path
+                    Path = "http://tollab.com/tollab/ws/CourseVideos/" + att.Path
                 }),
                 SKUNumber = result.SKUNumber,
                 SKUPrice = result.CurrentSKUPrice,

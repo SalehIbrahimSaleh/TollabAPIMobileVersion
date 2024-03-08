@@ -1282,7 +1282,7 @@ namespace TollabAPI.Controllers
                 }
                 response.AddModel(AppConstants.User, resultData);
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
-                response.AddMeta(AppConstants.Message, "Returned Successfuly");
+                response.AddMeta(AppConstants.Message, "Returned Successfully");
                 return response.getResponseMessage(HttpStatusCode.OK);
 
             }

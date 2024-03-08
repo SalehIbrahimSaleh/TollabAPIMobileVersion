@@ -1283,8 +1283,8 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.BadRequest);
                 }
                 var responseCustome = Request.CreateResponse(HttpStatusCode.Moved);
-                responseCustome.Headers.Location = new Uri("https://tollab.azurewebsites.net/PayMethods/Success?paymentId="+ paymentId + "");
-                response.AddModel(AppConstants.User, "https://tollab.azurewebsites.net/PayMethods/Success?paymentId="+ paymentId + "");
+                responseCustome.Headers.Location = new Uri("http://tollab.com/tollab/PayMethods/Success?paymentId=" + paymentId + "");
+                response.AddModel(AppConstants.User, "http://tollab.com/tollab/PayMethods/Success?paymentId="+ paymentId + "");
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
                 response.AddMeta(AppConstants.Message, "Returned Successfuly");
                 return responseCustome;//response.getResponseMessage(HttpStatusCode.OK);
@@ -1402,11 +1402,11 @@ namespace TollabAPI.Controllers
                     return response.getResponseMessage(HttpStatusCode.OK);
                 }
                 var responseCustome = Request.CreateResponse(HttpStatusCode.Moved);
-                responseCustome.Headers.Location = new Uri("http://tollab.azurewebsites.net/PayMethods/Error");
+                responseCustome.Headers.Location = new Uri("http://tollab.com/tollab/PayMethods/Error");
 
-                response.AddModel(AppConstants.User, "http://tollab.azurewebsites.net/PayMethods/Error");
+                response.AddModel(AppConstants.User, "http://tollab.com/tollab/PayMethods/Error");
                 response.AddMeta(AppConstants.Result, AppConstants.Success);
-                response.AddMeta(AppConstants.Message, "Returned Successfuly");
+                response.AddMeta(AppConstants.Message, "Returned Successfully");
                 return responseCustome; //response.getResponseMessage(HttpStatusCode.OK);
 
             }
